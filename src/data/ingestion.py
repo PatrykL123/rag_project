@@ -29,8 +29,10 @@ semantic_chunks = chunker.split_documents(documents)
 
 
 #testing 
-print("Number of semantic chunks:", len(semantic_chunks))
-print("First 2 semantic chunks: \n")
-for i, doc in enumerate(semantic_chunks[:2]):
-    print(f"chunk {i + 1}: \n {doc.page_content}")
+
+if __name__ == "__main__":
+    print("Number of semantic chunks:", len(semantic_chunks))
+    print("First 2 semantic chunks: \n")
+    for i, doc in enumerate(semantic_chunks[:2]):
+        print(f"chunk {i + 1}: \n {doc.page_content}")
 
