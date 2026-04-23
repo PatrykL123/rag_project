@@ -1,4 +1,4 @@
-from langchain_community.document_loaders import PyPDFLoader 
+from langchain_community.document_loaders import PyPDFDirectoryLoader 
 from langchain_experimental.text_splitter import SemanticChunker 
 from langchain_openai import OpenAI, OpenAIEmbeddings
 import os 
@@ -9,16 +9,13 @@ load_dotenv()
 if os.environ.get("OPENAI_API_KEY"):
     print("OPENAI_API_KEY is set.")
 else:
-    print("OPENAI_API_KEY is not set. Please set it in the .env file.")
+    raise ValueError("Brak klucza OPENAI_API_KEY w pliku .env!")
 
 
-# Load the PDF document
+# Load the PDF documents
 
-documents = PyPDFLoader("data/raw/HR_documents.pdf").load()
+documents = PyPDFDirectoryLoader("data/raw/", glob="**/*.pdf").load()
 
-# changing document into text 
-
-full_text = "\n".join([page.page_content for page in documents])
 
 # creating semantic chunks
 
@@ -28,4 +25,12 @@ chunker = SemanticChunker(
     breakpoint_threshold_amount = 60
 )
  
-semantic_chunks = chunker.create_documents([full_text])
+semantic_chunks = chunker.split_documents(documents)
+
+
+#testing 
+print("Number of semantic chunks:", len(semantic_chunks))
+print("First 2 semantic chunks: \n")
+for i, doc in enumerate(semantic_chunks[:2]):
+    print(f"chunk {i + 1}: \n {doc.page_content}")
+
