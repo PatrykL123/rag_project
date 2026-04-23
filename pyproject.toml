@@ -9,6 +9,7 @@ dependencies = [
     "fastapi>=0.136.0",
     "langchain>=1.2.15",
     "langchain-community>=0.4.1",
+    "langchain-experimental>=0.4.1",
     "langchain-openai>=1.1.16",
     "mlflow>=3.11.1",
     "numpy>=2.4.4",
