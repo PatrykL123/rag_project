@@ -13,11 +13,11 @@ else:
 
 
 def load_and_split_documents(pdf_directory):
-# Load the PDF documents
+    # Load the PDF documents
 
     documents = PyPDFDirectoryLoader(pdf_directory, glob="**/*.pdf").load()
 
-# creating semantic chunks
+    # creating semantic chunks
     
     chunker = SemanticChunker(
         OpenAIEmbeddings(model="text-embedding-3-small"),
