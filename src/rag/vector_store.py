@@ -25,6 +25,7 @@ if __name__ == "__main__":
     print("Number of semantic chunks:", len(chunks))
 
     print("Creating vector store...")
+    
     create_vector_store(chunks, "data/chroma_db/")
 
     print("Vector store created")
