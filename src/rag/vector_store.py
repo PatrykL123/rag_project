@@ -3,36 +3,33 @@ from langchain_community.vectorstores import Chroma
 from langchain_openai import OpenAIEmbeddings
 
 
-def create_vector_store(semantic_chunks, persist_directory):
-    # Create a Chroma vector store from the semantic chunks
-    embed_model = OpenAIEmbeddings(model="text-embedding-3-small")
+def add_to_vector_store(semantic_chunks):
 
-    vector_store = Chroma.from_documents(
-        documents=semantic_chunks,
-        embedding=embed_model,
-        persist_directory=persist_directory
-    )
+    db = get_vector_store()
+
+    db.add_documents(documents = semantic_chunks)
 
 
-#testing 
+def get_vector_store():
 
-if __name__ == "__main__":
+    return Chroma(persist_directory = "data/chroma_db", embedding_function = OpenAIEmbeddings(model="text-embedding-3-small"))
 
-    print("Loading and splitting documents...")
-
-    chunks = load_and_split_documents("data/raw/")
-
-    print("Number of semantic chunks:", len(chunks))
-
-    print("Creating vector store...")
     
-    create_vector_store(chunks, "data/chroma_db/")
 
-    print("Vector store created")
+def delete_vectors_by_source(file_path: str):
 
-    print("testing vector store...")
+    db = get_vector_store()
 
-    vector_store_con = Chroma(persist_directory="data/chroma_db/", embedding_function=OpenAIEmbeddings(model="text-embedding-3-small"))
-    query = "What is the main topic of the document?"
-    result = vector_store_con.similarity_search(query, k=3)
-    print("Query result:\n", result)
+    vectors = db.get(where = {"source" : file_path})
+
+    ids_to_delete = vectors.get("ids", [])
+
+    if ids_to_delete:
+
+        db.delete(ids = ids_to_delete)
+
+        print(f"Deleted {len(ids_to_delete)} old chunks from Database")
+    else: 
+
+        print("No old chunkd to delete (it's new file)")
+
