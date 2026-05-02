@@ -51,8 +51,39 @@ def get_new_files(directory_path: str, tracker_file: str ="src/data/processed_fi
 
 
 
+def update_tracker(processed_files_list: list, tracker_file: str ="src/data/processed_files.json") -> None:
+
+    """
+    Updates the JSON file with new hashes ONLY for those files
+    that were successfully processed and added to the vector database.
+    """
 
 
+    if not processed_files_list:
+        print("No new files to update")
+        return
+    
+
+    try:
+        with open(tracker_file, "rb") as f:
+            processed_files = json.load(f)
+
+    except (FileNotFoundError, json.JSONDecodeError):
+        processed_files = {}
+
+
+
+    for filename in processed_files_list:
+
+        processed_files[filename] = hash_file(filename)
+
+
+
+    with open(tracker_file, "w") as f:
+
+        json.dump(processed_files, f, indent = 4)
+
+    print(f"Tracker Updated sucessfully! Added/changed {len(processed_files_list)} files.")
 
         
 
