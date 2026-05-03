@@ -16,3 +16,5 @@ data/chroma_db/*
 .vscode/
 .DS_Store
 Thumbs.db
+
+data/processed_files.json
