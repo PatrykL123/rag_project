@@ -1,6 +1,13 @@
-from src.data.ingestion import load_and_split_documents 
-from langchain_community.vectorstores import Chroma 
+
+from langchain_chroma import Chroma 
 from langchain_openai import OpenAIEmbeddings
+
+
+
+def get_vector_store():
+
+    return Chroma(persist_directory = "data/chroma_db", embedding_function = OpenAIEmbeddings(model="text-embedding-3-small"))
+
 
 
 def add_to_vector_store(semantic_chunks):
@@ -8,12 +15,6 @@ def add_to_vector_store(semantic_chunks):
     db = get_vector_store()
 
     db.add_documents(documents = semantic_chunks)
-
-
-def get_vector_store():
-
-    return Chroma(persist_directory = "data/chroma_db", embedding_function = OpenAIEmbeddings(model="text-embedding-3-small"))
-
     
 
 def delete_vectors_by_source(file_path: str):
@@ -31,5 +32,5 @@ def delete_vectors_by_source(file_path: str):
         print(f"Deleted {len(ids_to_delete)} old chunks from Database")
     else: 
 
-        print("No old chunkd to delete (it's new file)")
+        print(f"No old chunks to delete (it's new file): {file_path}")
 
