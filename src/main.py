@@ -1,24 +1,22 @@
 from dotenv import load_dotenv
 import os
+import sys
 
 from src.rag.generator import generate_answer
 
 def main():
     load_dotenv()
 
-    if os.environ.get("OPENAI_API_KEY"):
-        print("Openai API key is set\n\n")
-    else:
-        print("please provide openai API key in .env file")
-        exit()
+    if not os.environ.get("OPENAI_API_KEY"):
+        raise ValueError("Missing OPENAI_API_KEY in .env file")
 
     print("If you want to exit the chat write: exit\n\n")
 
     while True:
 
-        query = input("What is your question?: ")
+        query = input("What is your question?: ").strip()
 
-        if not query.strip():
+        if not query:
             continue
 
         if query.lower() == "exit":
