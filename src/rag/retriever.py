@@ -8,3 +8,9 @@ def get_relevant_chunks(query: str, k: int = 5):
  
     return db.similarity_search(query, k)
 
+def get_retriever(k: int = 5):
+
+    db = get_vector_store()
+
+    return db.as_retriever(search_kwargs={"k":k})
+
