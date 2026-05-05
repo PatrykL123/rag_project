@@ -40,7 +40,7 @@ def generate_answer(query: str, chat_history: list):
 
     qa_prompt = ChatPromptTemplate.from_messages([
         ("system", ("""
-            You are a helpful HR assistant. Answer the question based on the context below.
+            You are a helpful assistant. Answer the question based on the context below.
             If you don't know the answer, simply say you don't know.\n\n
             Context:\n{context}
         """)),
