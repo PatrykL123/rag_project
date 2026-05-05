@@ -23,11 +23,10 @@ def main():
 
         if query.lower() == "exit":
             break
-        else:
 
-            answer = generate_answer(query)
-            print(f"\n\nAnswer: {answer}")
-            print("-" * 40)
+        answer = generate_answer(query)
+        print(f"\n\nAnswer: {answer}")
+        print("-" * 40)
 
 
 if __name__ == "__main__":
