@@ -79,6 +79,11 @@ You can interact with the system in two ways:
 ```bash
 python -m src.main
 ```
+**Option B: Graphical Interface (Web UI) - Optional** 
+
+```bash
+python -m streamlit run src/app.py
+```
 ---
 ## 📁 Project Structure
 
