@@ -13,11 +13,11 @@ The system features **contextual memory** – under the hood, it utilizes two in
 
 ## ✨ Key Features
 
-* **Conversational Memory:** Dynamic, on-the-fly query rewriting using an LLM, ensuring the vector search engine always receives a standalone, fully-contextualized query.
-* **Clean Architecture (LCEL):** The entire data flow logic consists of clean, declarative streams (Runnables), completely avoiding deprecated "black-box" modules.
-* **Modularity (Separation of Concerns):** The codebase is strictly divided into logical components: `pipeline` (ingestion), `processing` (chunking), and `rag` (AI engine).
-* **Smart File Tracker:** The system keeps track of processed files (`processed_files.json`), preventing redundant vectorization of previously ingested documents.
-* **Local Vector Database:** Integrated with ChromaDB for fast, free, and secure on-disk semantic search.
+* **Incremental Load & Document Updates:** The system features a Smart File Tracker that calculates file hashes in the `data/raw/` directory. It automatically detects new files, skips already processed ones, and **updates the vector database only for documents whose content has changed**. This guarantees ultra-fast synchronization without the need to re-ingest the entire knowledge base.
+* **Conversational Memory:** Context-aware query rewriting using an LLM ensures the vector search engine always receives a standalone, fully-contextualized query, resulting in highly accurate retrievals.
+* **Modern LCEL Architecture:** Built entirely with LangChain Expression Language (LCEL). The data flow relies on declarative streams (Runnables), ensuring the codebase is highly readable, maintainable, and easy to scale.
+* **Modularity (Separation of Concerns):** The codebase is strictly divided into logical components: `pipeline` (ingestion and tracking), `processing` (chunking algorithms), and `rag` (the core AI engine).
+* **Local Vector Database:** Powered by ChromaDB for fast, free, and secure on-disk semantic search. No external vector cloud services are required.
 
 ---
 
@@ -38,7 +38,7 @@ graph TD
 ## 🛠️ Tech Stack
 
 * **AI Engine:** LangChain (Core & OpenAI)
-* **Models:** `gpt-4o-mini` (Generation) & `text-embedding-3-small` (Embeddings)
+* **Models:** `gpt-5-mini` `gpt-4o-mini` (Generation) & `text-embedding-3-small` (Embeddings)
 * **Vector Store:** ChromaDB
 * **PDF Parsing:** `pypdf`
 * **Package Manager:** `uv`
